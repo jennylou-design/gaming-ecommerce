@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 type ProductCardProps = {
   title: string;
@@ -53,6 +54,11 @@ const handleMouseLeave = () => {
   rotateY.set(0);
 };
   return (
+      <Link
+    href={`/product/${title
+      .toLowerCase()
+      .replaceAll(" ", "-")}`}
+  >
     <motion.div
       onMouseMove={handleMouseMove}
   onMouseLeave={handleMouseLeave}
@@ -102,5 +108,6 @@ const handleMouseLeave = () => {
         </div>
       </div>
     </motion.div>
+    </Link>
   );
 }
