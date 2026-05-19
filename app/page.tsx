@@ -1,9 +1,18 @@
+import FloatingSidebar from "@/components/sidebar/FloatingSidebar";
+import HeroSection from "@/components/layout/HeroSection";
+import BentoGrid from "@/components/layout/BentoGrid";
+import MouseGlow from "@/components/animations/MouseGlow";
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#050816] text-white flex items-center justify-center">
-      <h1 className="text-5xl font-bold tracking-widest">
-        GAMING ECOMMERCE
-      </h1>
+    <main className="bg-[#050816] text-white overflow-hidden">
+      <MouseGlow />
+      
+      <FloatingSidebar />
+
+      <HeroSection />
+
+      <BentoGrid />
     </main>
   );
 }
