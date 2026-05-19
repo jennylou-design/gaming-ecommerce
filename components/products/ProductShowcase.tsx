@@ -6,16 +6,19 @@ const products = [
     title: "Phantom X Keyboard",
     category: "Keyboard",
     price: "$129",
+    image: "/images/keyboard.png",
   },
   {
     title: "Nova Pro Mouse",
     category: "Mouse",
     price: "$89",
+    image: "/images/mouse-new.png",
   },
   {
     title: "Cyber Headset",
     category: "Audio",
     price: "$149",
+    image: "/images/headset-new.png",
   },
 ];
 
@@ -42,6 +45,7 @@ export default function ProductShowcase() {
               title={product.title}
               category={product.category}
               price={product.price}
+              image={product.image}
             />
           ))}
         </div>

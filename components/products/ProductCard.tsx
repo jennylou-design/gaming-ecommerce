@@ -1,25 +1,66 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import Image from "next/image";
 
 type ProductCardProps = {
   title: string;
   category: string;
   price: string;
+  image: string;
 };
 
 export default function ProductCard({
   title,
   category,
   price,
-}: ProductCardProps) {
+  image,
+}: ProductCardProps) {const rotateX = useMotionValue(0);
+const rotateY = useMotionValue(0);
+
+const smoothRotateX = useTransform(
+  rotateX,
+  [-100, 100],
+  [10, -10]
+);
+
+const smoothRotateY = useTransform(
+  rotateY,
+  [-100, 100],
+  [-10, 10]
+);
+
+const handleMouseMove = (
+  e: React.MouseEvent<HTMLDivElement>
+) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+
+  const width = rect.width;
+  const height = rect.height;
+
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  const xPct = mouseX - width / 2;
+  const yPct = mouseY - height / 2;
+
+  rotateX.set(yPct);
+  rotateY.set(xPct);
+};
+
+const handleMouseLeave = () => {
+  rotateX.set(0);
+  rotateY.set(0);
+};
   return (
     <motion.div
-      whileHover={{
-        y: -10,
-        rotateX: 5,
-        rotateY: 5,
-      }}
+      onMouseMove={handleMouseMove}
+  onMouseLeave={handleMouseLeave}
+  style={{
+    rotateX: smoothRotateX,
+    rotateY: smoothRotateY,
+    transformStyle: "preserve-3d",
+  }}
       transition={{ duration: 0.3 }}
       className="group relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden p-6 hover:border-cyan-400/30 hover:shadow-[0_0_40px_rgba(0,255,255,0.15)] transition-all duration-300"
     >
@@ -27,13 +68,18 @@ export default function ProductCard({
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-cyan-400/5 transition-all duration-300" />
 
       {/* Fake Product Image */}
-      <div className="relative h-48 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-purple-500/20 flex items-center justify-center overflow-hidden">
-        <div className="w-24 h-24 rounded-full bg-cyan-300/30 blur-2xl absolute" />
+      <div className="relative h-48 rounded-2xl bg-gradient-to-br from-cyan-400/10 to-purple-500/10 flex items-center justify-center overflow-hidden">
 
-        <p className="relative z-10 text-white/70 text-sm tracking-widest uppercase">
-          Gaming Gear
-        </p>
-      </div>
+     <div className="absolute w-32 h-32 bg-cyan-400/20 blur-3xl rounded-full" />
+
+        <Image
+            src={image}
+            alt={title}
+            width={220}
+            height={220}
+            className="relative z-10 object-contain transition-transform duration-500 group-hover:scale-110"
+        />
+        </div>
 
       {/* Content */}
       <div className="relative mt-6">
