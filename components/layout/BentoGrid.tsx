@@ -1,6 +1,9 @@
+import Reveal from "@/components/animations/Reveal";
+
 export default function BentoGrid() {
   return (
-    <section className="relative px-6 pb-24">
+    <Reveal>
+        <section className="relative px-6 pb-24">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
 
         {/* Large Card */}
@@ -45,5 +48,6 @@ export default function BentoGrid() {
 
       </div>
     </section>
+    </Reveal>
   );
 }
