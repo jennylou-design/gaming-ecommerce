@@ -3,6 +3,8 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useCartStore } from "@/lib/cartStore";
+import { toast } from "sonner";
 
 type ProductCardProps = {
   title: string;
@@ -16,7 +18,13 @@ export default function ProductCard({
   category,
   price,
   image,
-}: ProductCardProps) {const rotateX = useMotionValue(0);
+}: ProductCardProps) {
+
+const addToCart = useCartStore(
+  (state) => state.addToCart
+);
+
+const rotateX = useMotionValue(0);
 const rotateY = useMotionValue(0);
 
 const smoothRotateX = useTransform(
@@ -101,10 +109,22 @@ const handleMouseLeave = () => {
           <p className="text-white/70">
             {price}
           </p>
+<button 
+      onClick={(e) => {
+        e.preventDefault();
 
-          <button className="px-4 py-2 rounded-xl bg-cyan-400 text-black font-semibold hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all duration-300">
-            Buy
-          </button>
+        addToCart({
+          title,
+          price,
+          image,
+        });
+
+        toast.success(`${title} added to cart`);
+      }}
+      className="px-4 py-2 rounded-xl bg-cyan-400 text-black font-semibold hover:shadow-[0_0_20px_rgba(34,211,238,0.5)] transition-all duration-300"
+    >
+      Buy
+    </button>
         </div>
       </div>
     </motion.div>
